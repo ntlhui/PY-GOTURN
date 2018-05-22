@@ -65,5 +65,5 @@ class tracker_manager:
                 else:
                     sMatImageDraw = cv2.rectangle(sMatImageDraw, (int(bbox.x1), int(bbox.y1)), (int(bbox.x2), int(bbox.y2)), (255, 0, 0), 2)
 
-                cv2.imshow('Results', sMatImageDraw)
-                cv2.waitKey(10)
+                # cv2.imshow('Results', sMatImageDraw)
+                # cv2.waitKey(10)
