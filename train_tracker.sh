@@ -4,6 +4,10 @@ INIT_CAFFEMODEL='./nets/tracker_init.caffemodel'
 TRACKER_PROTO='./nets/tracker.prototxt'
 SOLVER_PROTO='./nets/solver.prototxt'
 
+
+PYTHONPATH=$PYTHONPATH:./goturn/loader
+
+
 python -m goturn.train.train \
 --imagenet $IMAGENET_FOLDER \
 --alov $ALOV_FOLDER \
