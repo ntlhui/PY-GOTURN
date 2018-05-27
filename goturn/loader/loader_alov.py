@@ -8,9 +8,9 @@ import sys
 # sys.path.append('../helper/')
 import os
 import glob
-from annotation import annotation
-from video import video
-from video import frame
+from .annotation import annotation
+from .video import video
+from .video import frame
 import xml.etree.ElementTree as ET
 from ..logger.logger import setup_logger
 from ..helper.BoundingBox import BoundingBox
@@ -83,7 +83,7 @@ class loader_alov:
 
         video_name = video_path.split('/')[-1]
         self.alov_videos[video_name] = objVideo
-        if alov_sub_folder not in self.category.keys():
+        if alov_sub_folder not in list(self.category.keys()):
             self.category[alov_sub_folder] = []
 
         self.category[alov_sub_folder].append(self.alov_videos[video_name])
