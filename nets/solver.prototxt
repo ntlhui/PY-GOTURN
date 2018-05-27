@@ -1,4 +1,4 @@
-net:'./tracker.prototxt'
+net:'/datasets/home/64/564/nthui/PY-GOTURN/nets/tracker.prototxt'
 base_lr: 0.000001
 lr_policy: "step"
 gamma: 0.1
