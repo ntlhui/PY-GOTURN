@@ -5,7 +5,7 @@ TRACKER_PROTO='./nets/tracker.prototxt'
 SOLVER_PROTO='./nets/solver.prototxt'
 
 
-PYTHONPATH=$PYTHONPATH:./goturn/loader
+PYTHONPATH=$PYTHONPATH:./goturn/loader:./goturn/
 
 
 python -m goturn.train.train \
