@@ -61,10 +61,13 @@ class regressor_train:
         if len(images) != len(bboxes_gt):
             logger.error('Error = {} images but {} bboxes_gt', len(images), len(bboxes_gt))
 
-
+        self.logger.debug("Setting ground truth boxes")
         self.set_boxes_gt(bboxes_gt)
+        self.logger.debug("Setting images")
         self.regressor.set_images(images, targets)
+        self.logger.debug("Stepping")
         self.step()
+        self.logger.debug("Finished step")
 
     def visualize_train(self):
         net = self.solver.net
