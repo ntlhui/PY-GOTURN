@@ -37,8 +37,10 @@ class tracker_trainer:
         :returns: TODO
 
         """
+        self.logger.debug("Training regressor")
         self.regressor_train_.train(self.images_batch_, self.targets_batch_,
                 self.bbox_gt_scaled_batch_)
+        self.logger.debug("regressor complete")
 
     def make_training_examples(self):
         """TODO: Docstring for make_training_examples.
@@ -61,12 +63,16 @@ class tracker_trainer:
         logger = self.logger
         example_generator = self.example_generator_
         example_generator.reset(bbox_prev, bbox_curr, img_prev, img_curr)
+        logger.debug("Making training examples")
         self.make_training_examples()
+        logger.debug("Made training examples")
 
         while len(self.images) > 0:
+            logger.debug("Have %d images left" % len(self.images))
             num_in_batch = len(self.images_batch_)
             num_left_in_batch = self.kBatchSize - num_in_batch
             num_use = min(len(self.images), num_left_in_batch)
+            logger.debug("Using %d" % num_use)
 
             if num_use < 0:
                 logger.error('Error: num_use = {}', num_use)
@@ -78,7 +84,9 @@ class tracker_trainer:
 
             if (len(self.images_batch_) == self.kBatchSize):
                 self.num_batches_ = self.num_batches_ + 1
+                logger.debug("Processing batch")
                 self.process_batch()
+                logger.debug("batch complete")
 
                 self.images, self.targets, self.bbox_gt_scaled = [], [], []
                 self.images_batch_, self.targets_batch_, self.bbox_gt_scaled_batch_ = [], [], []
