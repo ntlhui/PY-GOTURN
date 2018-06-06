@@ -20,7 +20,10 @@ ap.add_argument("-p", "--prototxt", required = True, help = "Path to the prototx
 ap.add_argument("-m", "--model", required = True, help = "Path to the model")
 ap.add_argument("-v", "--input", required = True, help = "Path to the vot directory")
 ap.add_argument("-g", "--gpuID", required = True, help = "gpu to use")
+ap.add_argument("-V", "--verbose", required = False, help = "verbosity level - 0 to 5", type = int, default = 3)
 args = vars(ap.parse_args())
+
+logger.setLevel(args["verbose"] * 10)
 
 do_train = False
 objRegressor = regressor(args['prototxt'], args['model'], args['gpuID'], 1, do_train, logger)
