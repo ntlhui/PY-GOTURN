@@ -38,17 +38,23 @@ ap.add_argument("-gpu_id", "--gpu_id", required = True, help = "gpu id")
 RANDOM_SEED = 800
 GPU_ONLY = True
 kNumBatches = 500000
+kNumBatches = 500
 
 
-def train_image(image_loader, images, tracker_trainer):
+def train_image(image_loader, images, tracker_trainer, logger):
     """TODO: Docstring for train_image.
     """
     curr_image = np.random.randint(0, len(images))
+    logger.debug("Using image %d", curr_image)
     list_annotations = images[curr_image]
     curr_ann = np.random.randint(0, len(list_annotations))
+    logger.debug("Using annotation %d", curr_ann)
+
 
     image, bbox = image_loader.load_annotation(curr_image, curr_ann)
+    logger.debug("Loaded image and bounding box")
     tracker_trainer.train(image, image, bbox, bbox)
+    logger.debug("Training complete")
 
 def train_video(videos, tracker_trainer):
     """TODO: Docstring for train_video.
@@ -96,13 +102,18 @@ def main(args):
     train_alov_videos = objLoaderAlov.get_videos()
 
     # create example generator and setup the network
+    logger.info("Generating examples")
     objExampleGen = example_generator(float(args['lamda_shift']), float(args['lamda_scale']), float(args['min_scale']), float(args['max_scale']), logger)
+    logger.info("Training regressor")
     objRegTrain = regressor_train(args['train_prototxt'], args['init_caffemodel'], int(args['gpu_id']), args['solver_prototxt'], logger) 
+    logger.info("Training tracker")
     objTrackTrainer = tracker_trainer(objExampleGen, objRegTrain, logger)
 
     while objTrackTrainer.num_batches_ < kNumBatches:
-        train_image(objLoaderImgNet, train_imagenet_images, objTrackTrainer)
+        logger.info("Training image %d", objTrackTrainer.num_batches_)
+        train_image(objLoaderImgNet, train_imagenet_images, objTrackTrainer, logger)
         train_video(train_alov_videos, objTrackTrainer)
+    logger.info("done")
 
 
 if __name__ == '__main__':
